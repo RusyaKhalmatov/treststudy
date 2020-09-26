@@ -1,0 +1,16 @@
+{% extends '../base.html' %}
+
+
+{% block content %}
+    <div class="container">
+    {% for student in students_list  %}
+        <h3>Student id - {{student.user.id}}</h3>
+        <h3>First name - {{student.user.first_name}}</h3>
+        <h3>Last name - {{student.user.last_name}}</h3>
+        <a href="{{ student.get_absolute_url}}"> {{student.last_name}}</a>
+    </div>
+    {% endfor %}
+{% endblock %}
+
+
+

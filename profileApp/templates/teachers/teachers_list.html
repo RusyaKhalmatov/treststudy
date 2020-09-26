@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>List of teachers</title>
+</head>
+<body>
+    {% for teacher in teachers_list %}
+        <h3>{{teacher.t_name}}</h3>
+        <a href="{{teacher.get_absolute_url}}">{{teacher.url}}</a>
+    {% endfor %}
+
+
+</body>
+</html>
