@@ -33,7 +33,7 @@ class Courses(models.Model):
     course_id = models.AutoField(primary_key=True)
     dean = models.CharField(max_length=30, blank=False, null=False)
     course_name = models.CharField('Course name', max_length=150, blank=False, null=False)
-    url = models.SlugField(max_length=50,null=True, unique=True)
+    url = models.SlugField(max_length=50,null=True)
     def __str__(self):
         return self.course_name
 

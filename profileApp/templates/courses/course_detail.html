@@ -1,0 +1,31 @@
+{% extends '../base.html' %}
+
+
+{% block content %}
+    <div class="container" style="margin-top: 3%;">
+        <h3>Изменить характеристики курса</h3>
+        <div class="container table-wrapper-scroll-y my-custom-scrollbar" style="margin-top: 3%">
+            <form method="post">
+          {% csrf_token %}
+               <div class="form-row">
+                 <div class="form-group col-md-4">
+                    <label for="inputCourseName">Курс</label>
+                    <input type="text" class="form-control" id="inputCourseName" value="{{course.course_name}}">
+                 </div>
+                </div>
+                <div class="form-row">
+                  <div class="form-group col-md-4">
+                    <label for="inputDean">Декан курса</label>
+                    <input type="text" class="form-control" id="inputDean" value="{{course.dean}}">
+                  </div>
+                </div>
+                <div class="row row justify-content-center col-md-3">
+                  <button type="submit" class="btn btn-primary btn-lg btn-block">Сохранить</button>
+                </div>
+        </form>
+        </div>
+
+    </div>
+{% endblock %}
+
+

@@ -9,4 +9,9 @@
         <button type="submit" class="save btn btn-default bg-primary">Save</button>
     </form>
 
+    {% if alert %}
+        <script>
+            alert('{{ message }}');
+        </script>
+    {% endif %}
 {% endblock %}

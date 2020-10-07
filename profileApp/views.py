@@ -86,14 +86,24 @@ def addBook(request):
 
 
 def addCourse(request):
+    alert = False
     if request.method == "POST":
         form = AddCourseForm(request.POST)
         if form.is_valid():
-            form.save()
-            return redirect('login')
+            course = form.save(commit=False)
+            course.save()
+            course.url = 'course-' + str(course.course_id)
+            course.save()
+            alert = True
     else:
         form = AddCourseForm()
-    return render(request, 'courses/add-course.html', {'form': form})
+    return render(request, 'courses/add-course.html', {'form': form, 'alert': alert})
+
+
+class courseDetail(View):
+    def get(self, request, slug):
+        course = get_object_or_404(Courses, url=slug)
+        return render(request, 'courses/course_detail.html', {"course": course})
 
 
 def courseList(request):
