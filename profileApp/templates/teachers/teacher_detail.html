@@ -1,13 +1,70 @@
-<html>
-<head>
-    <meta charset="UTF-8">
+{% extends '../base.html' %}
 
-</head>
 
-<body>
-    <h1>teacher's info</h1>
-    <h3>{{teacher.t_id}}</h3>
-    <h3>{{teacher.t_name}}</h3>
-    <h3>{{teacher.t_surname}}</h3>
-</body>
-</html>
+{% block content %}
+    <div class="container" style="margin-top: 3%;">
+        <h3>Список учеников</h3>
+        <div class="container table-wrapper-scroll-y my-custom-scrollbar" style="margin-top: 3%">
+            <form method="post">
+          {% csrf_token %}
+
+       <div class="form-row">
+         <div class="form-group col-md-4">
+            <label for="inputName">Имя</label>
+            <input type="text" class="form-control" id="inputName" value="{{user.user.first_name}}">
+         </div>
+         <div class="form-group col-md-4">
+            <label for="inputLastname">Фамилия</label>
+            <input type="text" class="form-control" id="inputLastname" value="{{user.user.last_name}}">
+         </div>
+         <div class="form-group col-md-4">
+            <label for="inputThirdname">Отчество</label>
+            <input type="text" class="form-control" id="inputThirdname" value="{{user.thirdname}}">
+         </div>
+       </div>
+        <div class="form-row">
+          <div class="form-group col-md-6">
+              <label for="inputEmail4">Электронная почта</label>
+              <input type="email" class="form-control" id="inputEmail4" value="{{user.user.email}}">
+            </div>
+        </div>
+
+
+        <h3>Паспортные данные</h3>
+        <div class="form-row">
+          <div class="form-group col-md-2">
+            <label for="inputSeria">Серия паспорта</label>
+            <input type="text" class="form-control" id="inputSeria" value="{{user.passport_series}}">
+          </div>
+          <div class="form-group">
+            <label for="inputPassNum">Номер паспорта</label>
+            <input type="text" class="form-control" id="inputPassNum" value="{{user.passport_number}}">
+            </div>
+        </div>
+
+
+        <h3>
+          Личные данные
+        </h3>
+        <div class="form-row">
+          <div class="form-group col-md-3">
+              <label for="inputAddress">Домашний адрес</label>
+              <input type="text" class="form-control" id="inputAddress" value="{{user.home_address}}">
+          </div>
+          <div class="form-group col-md-3">
+              <label for="inputPhoneNumber">Номер телефона</label>
+              <input type="text" class="form-control" id="inputPhoneNumber" value="user.phone_number">
+          </div>
+        </div>
+
+        <div class="row row justify-content-center">
+          <button type="submit" class="btn btn-primary btn-lg btn-block">Сохранить изменения</button>
+        </div>
+
+        </form>
+        </div>
+
+    </div>
+{% endblock %}
+
+

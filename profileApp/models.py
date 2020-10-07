@@ -33,7 +33,7 @@ class Courses(models.Model):
     course_id = models.AutoField(primary_key=True)
     dean = models.CharField(max_length=30, blank=False, null=False)
     course_name = models.CharField('Course name', max_length=150, blank=False, null=False)
-
+    url = models.SlugField(max_length=50,null=True, unique=True)
     def __str__(self):
         return self.course_name
 
@@ -96,9 +96,9 @@ class Profile(models.Model):
     photo = models.ImageField('Upload photo', blank=True, null=True, upload_to='account_photo/')
     region = models.CharField('Region of a Country', max_length=30,
                               help_text="Enter user's region (Fergana, Tashkent viloyat, Samarkand)", default='Tashkent')
-    city = models.CharField('City', max_length=30, help_text="Enter user's city (Fergana, Tashkent, Samarkand)")
+    city = models.CharField('City', max_length=30, help_text="Enter user's city (Fergana, Tashkent, Samarkand)", default="Tashkent")
     passport_series = models.CharField('Passport series', max_length=5, blank=False, null=False,
-                                       help_text="two letters")
+                                       help_text="two letters", default='aa')
     role = models.ForeignKey(Roles, on_delete=models.CASCADE, null=True)
     passport_number = models.CharField('Passport number', max_length=10, blank=False, null=False)
     home_address = models.CharField('Home address', max_length=70, null=False)
@@ -112,6 +112,9 @@ class Profile(models.Model):
 
     def __str__(self):
         return self.user.username
+
+    def get_absolute_url(self):
+        return reverse('student_detail', kwargs={"slug": self.url})
 
 
 class Student(models.Model):

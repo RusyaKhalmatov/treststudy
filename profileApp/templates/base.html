@@ -21,23 +21,28 @@
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item active">
-        <a class="nav-link" href="register">Добавить пользователя <span class="sr-only">(current)</span></a>
+        <a class="nav-link" href="{% url 'register' %}">Добавить пользователя <span class="sr-only">(current)</span></a>
       </li>
+
       <li class="nav-item">
-        <a class="nav-link" href="add-book">Добавить книгу</a>
+        <a class="nav-link" href="{% url 'addBook' %}">Добавить книгу</a>
       </li>
+
         <li class="nav-item">
-        <a class="nav-link" href="studentslist">Список студентов</a>
+        <a class="nav-link" href="{% url 'profile_students_list' %}">Список студентов</a>
       </li>
+
+        <li class="nav-item">
+        <a class="nav-link" href="{% url 'teachers_list' %}">Список учителей</a>
+      </li>
+
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Dropdown
+          Курсы
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="#">Action</a>
-          <a class="dropdown-item" href="#">Another action</a>
-          <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="#">Something else here</a>
+          <a class="dropdown-item" href="{% url 'course-list' %}">Список всех курсов</a>
+          <a class="dropdown-item" href="{% url 'add-course' %}">Добавить курс</a>
         </div>
       </li>
     </ul>
@@ -55,7 +60,7 @@
 
 
 <div class="navbar bg-primary fixed-bottom">
-    <small class="ml-4 ml-sm-5 mb-2" style="padding: 0.5%">
+    <small class="ml-4 ml-sm-5 mb-2" style="padding: 0.5%; color:white;">
       &copy; 2020 OOO &laquo;COSCOM&raquo;. Все права защищены. Услуги
       лицензированы.
     </small>

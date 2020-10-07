@@ -1,0 +1,28 @@
+{% extends '../base.html' %}
+
+
+{% block content %}
+    <div class="container" style="margin-top: 3%;">
+        <h3>Список курсов</h3>
+        <div class="container table-wrapper-scroll-y my-custom-scrollbar" style="margin-top: 3%">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">Курс</th>
+                  <th scope="col">Декан</th>
+                </tr>
+              </thead>
+                 {% for course in courses  %}
+              <tbody>
+                <tr>
+                    <td><a href="teacher/{{ teacher.url }}/">{{course.course_name}}</a></td>
+                  <td>{{course.dean}}</td>
+                </tr>
+              </tbody>
+                {% endfor %}
+            </table>
+        </div>
+
+    </div>
+{% endblock %}
+

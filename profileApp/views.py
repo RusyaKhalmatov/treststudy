@@ -2,9 +2,8 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse
 from django.utils import timezone
 from django.views.generic.base import View
-from .forms import UserFormCreation, AddBookForm, ProfileForm
-from profileApp.models import Student, Teachers, Profile
-
+from .forms import UserFormCreation, AddBookForm, ProfileForm, AddCourseForm
+from profileApp.models import Student, Teachers, Profile, Courses
 
 
 def index(request):
@@ -12,39 +11,39 @@ def index(request):
 
 
 def student_list(request):
-    print("Students list")
     student_list = []
     users = Profile.objects.all()
     for user in users:
-        print(user.role)
-        if (str(user.role) == 'student'):
-            print(user.user.username)
+        if str(user.role) == 'student':
             student_list.append(user)
 
     return render(request, 'students/students_list.html', {"students_list": student_list})
 
 
 class StudentDetailView(View):
-
     def get(self, request, slug):
-        student = get_object_or_404(Student, url=slug)
+        student = get_object_or_404(Profile, url=slug)
         return render(request, 'students/student_detail.html', {'student': student})
 
 
 class TeachersList(View):
     def get(self, request):
-        teachers = Teachers.objects.all()
-        return render(request, 'teachers/teachers_list.html', {"teachers_list": teachers})
+        teachers_list = []
+        teachers = Profile.objects.all()
+        for t in teachers:
+            if str(t.role) == 'teacher':
+                teachers_list.append(t)
+        return render(request, 'teachers/teachers_list.html', {"teachers": teachers_list})
 
 
 class TeacherDetailView(View):
     def get(self, request, slug):
-        teacher = get_object_or_404(Teachers, url=slug)
-        return render(request, 'teachers/teacher_detail.html', {"teacher": teacher})
+        user = get_object_or_404(Profile, url=slug)
+        return render(request, 'teachers/teacher_detail.html', {"user": user})
 
 
-#@login_required
-#@transaction.atomic
+# @login_required
+# @transaction.atomic
 def registerPage(request):
     print("Here again")
     if request.method == 'POST':
@@ -59,7 +58,7 @@ def registerPage(request):
             profile.user = user
             profile.url = 'url' + user.username
             profile.save()
-            #messages.success(request, _('Your profile was successfully updated!'))
+            # messages.success(request, _('Your profile was successfully updated!'))
             print("User successfully added ")
             return redirect('index')
     else:
@@ -74,7 +73,6 @@ def registerPage(request):
 
 
 def addBook(request):
-    print("Enter add book")
     if request.method == "POST":
         form = AddBookForm(request.POST)
         if form.is_valid():
@@ -84,14 +82,28 @@ def addBook(request):
             return redirect('login')
     else:
         form = AddBookForm()
-    return render(request, 'accounts/add_book.html', {'form': form})
+    return render(request, 'add_book.html', {'form': form})
 
+
+def addCourse(request):
+    if request.method == "POST":
+        form = AddCourseForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('login')
+    else:
+        form = AddCourseForm()
+    return render(request, 'courses/add-course.html', {'form': form})
+
+
+def courseList(request):
+    courses = Courses.objects.all()
+    return render(request, 'courses/course_list.html', {"courses": courses})
 
 
 def loginPage(request):
     context = {}
     return render(request, 'accounts/login.html', context)
-
 
 #
 # class StudentsView(ListView):
@@ -103,4 +115,3 @@ def loginPage(request):
 # class StudentDetailView(DetailView):  #Django будет искать template файл соответственно student_detail, что берется из названия
 #     model = Student
 #     slug_field = "url" #по столбцу url в таблице будет идти поиск
-
