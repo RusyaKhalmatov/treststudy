@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="stylesheet" href="style.css">
     <!-- CSS only -->
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
 
@@ -22,10 +21,13 @@
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item active">
-        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+        <a class="nav-link" href="register">Добавить пользователя <span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">Link</a>
+        <a class="nav-link" href="add-book">Добавить книгу</a>
+      </li>
+        <li class="nav-item">
+        <a class="nav-link" href="studentslist">Список студентов</a>
       </li>
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -38,9 +40,6 @@
           <a class="dropdown-item" href="#">Something else here</a>
         </div>
       </li>
-      <li class="nav-item">
-        <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-      </li>
     </ul>
     <form class="form-inline my-2 my-lg-0">
       <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
@@ -49,14 +48,17 @@
   </div>
 </nav>
 
-    <div id="container>
+    <div class="container">
         {% block content %}
         {% endblock %}
     </div>
 
 
-<div class="navbar fixed-bottom">
-    <h3>Footer part</h3>
+<div class="navbar bg-primary fixed-bottom">
+    <small class="ml-4 ml-sm-5 mb-2" style="padding: 0.5%">
+      &copy; 2020 OOO &laquo;COSCOM&raquo;. Все права защищены. Услуги
+      лицензированы.
+    </small>
 </div>
 
 </body>

@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'profileApp',
-
+    'widget_tweaks'
 ]
 
 MIDDLEWARE = [
@@ -78,9 +78,9 @@ WSGI_APPLICATION = 'treststudy.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'treststudy3',
-        'USER' : 'root',
-        'PASSWORD' : 'root',
+        'NAME': 'treststudydb',
+        'USER' : 'postgres',
+        'PASSWORD' : '12357tr',
         'HOST' : '127.0.0.1',
         'PORT' : '5432',
     }

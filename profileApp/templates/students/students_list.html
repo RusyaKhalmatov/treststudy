@@ -2,14 +2,34 @@
 
 
 {% block content %}
-    <div class="container">
-    {% for student in students_list  %}
-        <h3>Student id - {{student.user.id}}</h3>
-        <h3>First name - {{student.user.first_name}}</h3>
-        <h3>Last name - {{student.user.last_name}}</h3>
-        <a href="{{ student.get_absolute_url}}"> {{student.last_name}}</a>
+    <div class="container" style="margin-top: 3%;">
+        <h3>Список учеников</h3>
+        <div class="container table-wrapper-scroll-y my-custom-scrollbar" style="margin-top: 3%">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">ID</th>
+                    <th class="scope">Имя пользователя</th>
+                  <th scope="col">Имя</th>
+                  <th scope="col">Фамилия</th>
+                    <th class="scope">Отчество</th>
+                </tr>
+              </thead>
+                 {% for student in students_list  %}
+              <tbody>
+                <tr>
+                  <td>{{student.user.id}}</td>
+                    <td>{{student.user.username}}</td>
+                  <td>{{student.user.first_name}}</td>
+                    <td>{{student.user.last_name}}</td>
+                    <td>{{student.thirdname}}</td>
+                </tr>
+              </tbody>
+                {% endfor %}
+            </table>
+        </div>
+
     </div>
-    {% endfor %}
 {% endblock %}
 
 

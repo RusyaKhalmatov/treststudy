@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
 # Create your models here#
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 from django.urls import reverse
 
 
@@ -86,27 +88,27 @@ class Subjects(models.Model):
         verbose_name_plural = "Subjects"
 
 
-class UserExtend(models.Model):
-    id = models.AutoField(primary_key = True)
+class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     thirdname = models.CharField('Thirdname', max_length=30, blank=True, null=True)
-    date_of_birth = models.DateField('Date of birth')
+    date_of_birth = models.DateField('Date of birth', null=True)
     phone_number = models.CharField("Phone number", max_length=50, blank=True, null=True, default="+998")
     photo = models.ImageField('Upload photo', blank=True, null=True, upload_to='account_photo/')
     region = models.CharField('Region of a Country', max_length=30,
-                              help_text="Enter user's region (Fergana, Tashkent viloyat, Samarkand)")
+                              help_text="Enter user's region (Fergana, Tashkent viloyat, Samarkand)", default='Tashkent')
     city = models.CharField('City', max_length=30, help_text="Enter user's city (Fergana, Tashkent, Samarkand)")
     passport_series = models.CharField('Passport series', max_length=5, blank=False, null=False,
                                        help_text="two letters")
     role = models.ForeignKey(Roles, on_delete=models.CASCADE, null=True)
     passport_number = models.CharField('Passport number', max_length=10, blank=False, null=False)
-    home_address = models.CharField('Home address', max_length=70, blank=False, null=False)
+    home_address = models.CharField('Home address', max_length=70, null=False)
     rating = models.PositiveSmallIntegerField('Rating', default=0)
     reg_date = models.DateField("Date of registration", null=True)
     out_date = models.DateField("Out date ", null=True)
-    url = models.SlugField(max_length=50, unique=True, default="none    ")
+    url = models.SlugField(max_length=50,null=True, default="none")
 
-
+    class Meta:
+        db_table = 'profile'
 
     def __str__(self):
         return self.user.username
@@ -123,6 +125,7 @@ class Student(models.Model):
         return self.u_id.username
 
     class Meta:
+        db_table = "students"
         verbose_name = "Student"
         verbose_name_plural = "Students"
 

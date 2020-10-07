@@ -1,67 +1,131 @@
-{% extends 'base.html' %}
-
+{% extends '../base.html' %}
+{% load widget_tweaks %}
 
 {% block content %}
-    <div class="container-fluid" style="margin: 3%">
-       <div class="form-group">
-            <label for="inputAddress">Username</label>
-            <input type="text" class="form-control" id="inputUsername" placeholder="Enter username">
-          </div>
-        <form>
+<div class="container-fluid" style="margin: 3%; padding-bottom: 5%;">
+      <form method="post" action="{%url 'register' %}">
+          {% csrf_token %}
+
+        <div class="form-row">
+            <div class="input-group md-4">
+                <div class="input-group-append">
+
+                </div>
+            </div>
+          <div class="form-group col-md-4">
+            <label for="inputUsername">Имя пользователя</label>
+            <!--input type="text" class="form-control" id="inputUsername" placeholder="Введите имя пользователя"-->
+              {{form.username|attr:"class:form-control"|attr:"id:inputUsername"|attr:"placeholder:Введите имя пользователя"}}
+         </div>
+        </div>
+       <div class="form-row">
+
+         <div class="form-group col-md-4">
+            <label for="inputName">Имя</label>
+            <!--input type="text" class="form-control" id="inputName" placeholder="Введите имя"-->
+             {{form.first_name|attr:"class:form-control"|attr:"id:inputName"|attr:"placeholder:Введите имя"}}
+         </div>
+         <div class="form-group col-md-4">
+            <label for="inputLastname">Фамилия</label>
+            <!--input type="text" class="form-control" id="inputLastname" placeholder="Введите фамилию"-->
+             {{form.last_name|attr:"class:form-control"|attr:"id:inputLastname"|attr:"placeholder:Введите фамилию"}}
+         </div>
+         <div class="form-group col-md-4">
+            <label for="inputThirdname">Отчество</label>
+            <!--input type="text" class="form-control" id="inputUsername" placeholder="Введите отчество"-->
+             {{extendform.thirdname|attr:"class:form-control"|attr:"id:inputThirdname"|attr:"placeholder:Введите отчество"}}
+         </div>
+       </div>
+        <div class="form-row">
+          <div class="form-group col-md-6">
+              <label for="inputEmail4">Электронная почта</label>
+              <!--input type="email" class="form-control" id="inputEmail4" placeholder="Введите электонный почтовый адрес"-->
+              {{form.email|attr:"class:form-control"|attr:"id:inputEmail4"|attr:"placeholder:Введите электонный почтовый адрес"}}
+            </div>
+        </div>
           <div class="form-row">
             <div class="form-group col-md-6">
-              <label for="inputEmail4">Email</label>
-              <input type="email" class="form-control" id="inputEmail4">  
+              <label for="inputPassword4">Пароль</label>
+              <!--input type="password" class="form-control" id="inputPassword4" placeholder="Придумайте надежный пароль"-->
+                {{form.password1|attr:"class:form-control"|attr:"id:inputPassword4"|attr:"placeholder:Придумайте надежный пароль"}}
             </div>
             <div class="form-group col-md-6">
-              <label for="inputPassword4">Password</label>
-              <input type="password" class="form-control" id="inputPassword4">
-            </div>
-            <div class="form-group col-md-6">
-              <label for="inputPassword4">Password confirmation</label>
-              <input type="password" class="form-control" id="inputPassword4">
+              <label for="inputPassword4-1">Подтвердите пароль</label>
+              <!--input type="password" class="form-control" id="inputPassword4-1"-->
+                {{form.password2|attr:"class:form-control"|attr:"id:inputPassword4-1"|attr:"placeholder: Подтвердите пароль"}}
             </div>
           </div>
 
-            <div class="form-group">
-            <label for="inputAddress">Address</label>
-            <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St">
+        <h3>Паспортные данные</h3>
+        <div class="form-row">
+          <div class="form-group col-md-2">
+            <label for="inputSeria">Серия паспорта</label>
+            <!--input type="text" class="form-control" id="inputSeria" placeholder="AA"-->
+             {{extendform.passport_series|attr:"class:form-control"|attr:"id:inputSeria"|attr:"placeholder: AA"}}
           </div>
-
           <div class="form-group">
-            <label for="inputAddress2">Address 2</label>
-            <input type="text" class="form-control" id="inputAddress2" placeholder="Apartment, studio, or floor">
-          </div>
-
-          <div class="form-row">
-            <div class="form-group col-md-6">
-              <label for="inputCity">City</label>
-              <input type="text" class="form-control" id="inputCity">
+            <label for="inputPassNum">Номер паспорта</label>
+            <!--input type="text" class="form-control" id="inputPassNum" placeholder="1234567"-->
+             {{extendform.passport_number|attr:"class:form-control"|attr:"id:inputPassNum"|attr:"placeholder: 1234567"}}
             </div>
+        </div>
+
+
+        <h3>
+          Личные данные
+        </h3>
+        <div class="form-row">
+          <div class="form-group col-md-3">
+            <label for="inputDateofbirth">Дата рождения</label>
+            <!--input type="date" class="form-control" id="inputDateofbirth"-->
+              {{extendform.date_of_birth|attr:"class:form-control"|attr:"id:inputDateofbirth"|attr:"type:date"}}
+          </div>
+          <div class="form-group col-md-3">
+            <label for="inputRegion">Регион</label>
+            <select class="custom-select" class="form-control" id="inputRegion">
+              <option selected>Выберите регион</option>
+              <option value="1">Ташкент</option>
+              <option value="2">Таш. обл.</option>
+              <option value="3">Самарканд</option>
+              <option value="4">Бухара</option>
+              <option value="5">Сырдарья</option>
+              <option value="6">Кашкадарья</option>
+            </select>
+          </div>
+          <div class="form-group col-md-3">
+              <label for="inputAddress">Домашний адрес</label>
+              <!--input type="text" class="form-control" id="inputAddress" placeholder="Яшнабадский р-н, Авиасозлар 2, 18,4"-->
+             {{extendform.home_address|attr:"class:form-control"|attr:"id:inputAddress"|attr:"placeholder: Яшнабадский р-н, Авиасозлар 2, 18,4"}}
+          </div>
+          <div class="form-group col-md-3">
+              <label for="inputPhoneNumber">Номер телефона</label>
+              <!--input type="text" class="form-control" id="inputPhoneNumber" placeholder="+998935381400"-->
+               {{extendform.phone_number|attr:"class:form-control"|attr:"id:inputPhoneNumber"|attr:"placeholder: +998935381400"}}
+
+          </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-6" style="padding: 0;">
+              <label for="inputRole">Роль</label>
+                {{extendform.role|attr:"class: custom-select form-control"|attr:"id:inputRole"}}
+            </div>
+        </div>
+        <div class="form-row">
             <div class="form-group col-md-4">
-              <label for="inputState">State</label>
-              <select id="inputState" class="form-control">
-                <option selected>Choose...</option>
-                <option>...</option>
-              </select>
-            </div>
-            <div class="form-group col-md-2">
-              <label for="inputZip">Zip</label>
-              <input type="text" class="form-control" id="inputZip">
-            </div>
-          </div>
+              <label class="custom-file-label" for="customFile">Choose file</label>
+              <input type="file" class="custom-file-input form-control" id="customFile">
 
-          <div class="form-group">
-            <div class="form-check">
-              <input class="form-check-input" type="checkbox" id="gridCheck">
-              <label class="form-check-label" for="gridCheck">
-                Check me out
-              </label>
             </div>
-          </div>
+        </div>
 
-          <button type="submit" class="btn btn-primary">Sign in</button>
+        <div class="row row justify-content-center">
+          <button type="submit" class="btn btn-primary btn-lg btn-block">Добавить пользователя</button>
+        </div>
+
         </form>
     </div>
+
+
+
 {% endblock %}
 

@@ -4,19 +4,19 @@ from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.models import User
 
 
-class UserExtendInline(admin.StackedInline):
-    model = UserExtend
-    can_delete = False
-    verbose_name_plural = 'userextend'
-
-
-# Register your models here.
-class UserAdmin(BaseUserAdmin):
-    inlines = (UserExtendInline,)
-
-
-admin.site.unregister(User)
-admin.site.register(User, UserAdmin)
+# class ProfileInline(admin.StackedInline):
+#     model = Profile
+#     can_delete = False
+#     verbose_name_plural = 'profile'
+#
+#
+# # Register your models here.
+# class UserAdmin(BaseUserAdmin):
+#     inlines = (ProfileInline,)
+#
+#
+# admin.site.unregister(User)
+admin.site.register(Profile)
 admin.site.register(Books)
 admin.site.register(Courses)
 admin.site.register(Groups)
