@@ -70,8 +70,9 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'treststudy.wsgi.application'
+LOGIN_REDIRECT_URL = ''
 
-
+LOGIN_URL="login"
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
@@ -85,6 +86,7 @@ DATABASES = {
         'PORT' : '5432',
     }
 }
+
 
 
 # Password validation

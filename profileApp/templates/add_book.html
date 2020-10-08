@@ -13,4 +13,11 @@
         <button type="submit" class="save btn btn-default">Save</button>
     </form>
 
+    <div class="container">
+        <div class="row justify-content-center">
+            {% for message in messages %}
+                <p id="messages">{{message}}</p>
+            {% endfor %}
+        </div>
+    </div>
 {% endblock %}

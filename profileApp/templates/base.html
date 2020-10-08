@@ -13,7 +13,7 @@
 
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-  <a class="navbar-brand" href="#">Navbar</a>
+  <a class="navbar-brand" href="{% url 'index' %}">Главная</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
@@ -46,10 +46,18 @@
         </div>
       </li>
     </ul>
-    <form class="form-inline my-2 my-lg-0">
-      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+    <form class="form-inline my-2 my-lg-0" style="margin-right: 10% !important;">
+      <input class="form-control mr-sm-5" type="search" placeholder="Search" aria-label="Search" style="margin-right: 0px!important;">
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit" style="margin-left: 0%;">Search</button>
     </form>
+      <ul class="navbar-nav" style="margin-right: 2%;">
+      {% if user.is_authenticated %}
+        <li class="nav-item"><a class="nav-link" href="#">Здравствуйте, {{ user.first_name }}</a></li>
+         <li class="nav-item"><a class="nav-link" href="{% url 'logout'%}">Выйти</a></li>
+       {% else %}
+         <li class="nav-item"><a class="nav-link" href="{% url 'login'%}?next={{request.path}}" style="margin-left: 2%">Войти</a></li>
+       {% endif %}
+          </ul>
   </div>
 </nav>
 

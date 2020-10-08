@@ -1,15 +1,20 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse
 from django.utils import timezone
+from django.views.generic import CreateView
 from django.views.generic.base import View
 from .forms import UserFormCreation, AddBookForm, ProfileForm, AddCourseForm
 from profileApp.models import Student, Teachers, Profile, Courses
+from django.contrib import messages
+from django.contrib.auth import authenticate, login, logout
 
 
 def index(request):
     return render(request, './index.html')
 
 
+@login_required(login_url='login')
 def student_list(request):
     student_list = []
     users = Profile.objects.all()
@@ -44,6 +49,7 @@ class TeacherDetailView(View):
 
 # @login_required
 # @transaction.atomic
+@login_required(login_url='login')
 def registerPage(request):
     print("Here again")
     if request.method == 'POST':
@@ -72,6 +78,7 @@ def registerPage(request):
     return render(request, 'accounts/register.html', context)
 
 
+@login_required(login_url='login')
 def addBook(request):
     if request.method == "POST":
         form = AddBookForm(request.POST)
@@ -79,12 +86,14 @@ def addBook(request):
             post = form.save(commit=False)
             post.date_published = timezone.now()
             post.save()
-            return redirect('login')
+            book_name = form.cleaned_data['book_name']
+            messages.success(request, "Книга " + book_name + " успешно добавлена")
     else:
         form = AddBookForm()
     return render(request, 'add_book.html', {'form': form})
 
 
+@login_required(login_url='login')
 def addCourse(request):
     alert = False
     if request.method == "POST":
@@ -106,22 +115,36 @@ class courseDetail(View):
         return render(request, 'courses/course_detail.html', {"course": course})
 
 
+@login_required(login_url='login')
 def courseList(request):
     courses = Courses.objects.all()
     return render(request, 'courses/course_list.html', {"courses": courses})
 
 
 def loginPage(request):
+    if request.user.is_authenticated:
+        print("I A AUTHENTICATED")
+        return redirect('index')
+    else:
+        if request.method == 'POST':
+            username = request.POST.get('username')
+            password = request.POST.get('password')
+            user = authenticate(request, username=username, password=password)
+
+            if user is not None:
+                login(request, user)
+                return redirect('index')
+            else:
+                messages.info(request, "Неправильный логин или пароль")
     context = {}
     return render(request, 'accounts/login.html', context)
 
-#
-# class StudentsView(ListView):
-#     model = Student
-#     queryset = Student.objects.all()
-#     template_name = "students/students_list.html"
-#
-#
-# class StudentDetailView(DetailView):  #Django будет искать template файл соответственно student_detail, что берется из названия
-#     model = Student
-#     slug_field = "url" #по столбцу url в таблице будет идти поиск
+
+def logoutView(request):
+    logout(request)
+    return redirect('login')
+
+
+def userPage(request):
+    context = {}
+    return render(request, 'accounts/user', context)
