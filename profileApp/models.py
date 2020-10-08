@@ -99,7 +99,7 @@ class Profile(models.Model):
     city = models.CharField('City', max_length=30, help_text="Enter user's city (Fergana, Tashkent, Samarkand)", default="Tashkent")
     passport_series = models.CharField('Passport series', max_length=5, blank=False, null=False,
                                        help_text="two letters", default='aa')
-    role = models.ForeignKey(Roles, on_delete=models.CASCADE, null=True)
+    role = models.ForeignKey(Roles, on_delete=models.CASCADE,blank=False, null=True)
     passport_number = models.CharField('Passport number', max_length=10, blank=False, null=False)
     home_address = models.CharField('Home address', max_length=70, null=False)
     rating = models.PositiveSmallIntegerField('Rating', default=0)

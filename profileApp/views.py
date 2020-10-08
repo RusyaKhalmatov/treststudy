@@ -1,15 +1,20 @@
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import Group
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse
 from django.utils import timezone
 from django.views.generic import CreateView
 from django.views.generic.base import View
+
+from .decorators import authenticate_required, allowed_users
 from .forms import UserFormCreation, AddBookForm, ProfileForm, AddCourseForm
 from profileApp.models import Student, Teachers, Profile, Courses
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 
 
+# @allowed_users(allowed_roles=['admin'])
+@login_required(login_url='login')
 def index(request):
     return render(request, './index.html')
 
@@ -47,15 +52,10 @@ class TeacherDetailView(View):
         return render(request, 'teachers/teacher_detail.html', {"user": user})
 
 
-# @login_required
-# @transaction.atomic
+
 @login_required(login_url='login')
 def registerPage(request):
-    print("Here again")
     if request.method == 'POST':
-        print("Im in post part")
-        # form = UserFormCreation(request.POST, instance=request.user)
-        # extend_form = ProfileForm(request.POST, instance=request.user.profile)
         form = UserFormCreation(request.POST)
         extend_form = ProfileForm(request.POST)
         if form.is_valid() and extend_form.is_valid():
@@ -63,18 +63,20 @@ def registerPage(request):
             profile = extend_form.save(commit=False)
             profile.user = user
             profile.url = 'url' + user.username
+            user_role = extend_form.cleaned_data['role']
+            group = Group.objects.get(name=user_role)
+            user.groups.add(group)
+            if str(user_role) == 'admin':
+                user.is_staff = True
             profile.save()
-            # messages.success(request, _('Your profile was successfully updated!'))
-            print("User successfully added ")
+            user.save()
             return redirect('index')
     else:
-        print("Im in else part")
-        # form = UserFormCreation(instance=request.user)
-        # extend_form = ProfileForm(instance=request.user.profile)
         form = UserFormCreation(request.POST)
         extend_form = ProfileForm(request.POST)
-        context = {"form": form,
-                   "extendform": extend_form}
+
+    context = {"form": form,
+               "extendform": extend_form}
     return render(request, 'accounts/register.html', context)
 
 
@@ -121,21 +123,19 @@ def courseList(request):
     return render(request, 'courses/course_list.html', {"courses": courses})
 
 
+@authenticate_required
 def loginPage(request):
-    if request.user.is_authenticated:
-        print("I A AUTHENTICATED")
-        return redirect('index')
-    else:
-        if request.method == 'POST':
-            username = request.POST.get('username')
-            password = request.POST.get('password')
-            user = authenticate(request, username=username, password=password)
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        user = authenticate(request, username=username, password=password)
 
-            if user is not None:
-                login(request, user)
-                return redirect('index')
-            else:
-                messages.info(request, "Неправильный логин или пароль")
+        if user is not None:
+            login(request, user)
+            return redirect('index')
+        else:
+            messages.info(request, "Неправильный логин или пароль")
+
     context = {}
     return render(request, 'accounts/login.html', context)
 
