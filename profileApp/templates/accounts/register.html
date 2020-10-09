@@ -5,7 +5,6 @@
 <div class="container-fluid" style="margin: 3%; padding-bottom: 5%;">
       <form method="post" action="{%url 'register' %}">
           {% csrf_token %}
-
         <div class="form-row">
             <div class="input-group md-4">
                 <div class="input-group-append">
@@ -108,6 +107,9 @@
             <div class="form-group col-md-6" style="padding: 0;">
               <label for="inputRole">Роль</label>
                 {{extendform.role|attr:"class: custom-select form-control"|attr:"id:inputRole"}}
+                {% if extendform.role.value is not None %}
+                    <p> Что то выбрали все таки</p>
+                {% endif%}
             </div>
         </div>
         <div class="form-row">

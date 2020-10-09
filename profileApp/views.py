@@ -52,6 +52,7 @@ class TeacherDetailView(View):
         return render(request, 'teachers/teacher_detail.html', {"user": user})
 
 
+# start register page
 
 @login_required(login_url='login')
 def registerPage(request):
@@ -78,6 +79,33 @@ def registerPage(request):
     context = {"form": form,
                "extendform": extend_form}
     return render(request, 'accounts/register.html', context)
+
+# def registerPage(request):
+#     if request.method == 'POST':
+#         form = UserFormCreation(request.POST)
+#         extend_form = ProfileForm(request.POST)
+#         if form.is_valid() and extend_form.is_valid():
+#             user = form.save()
+#             profile = extend_form.save(commit=False)
+#             profile.user = user
+#             profile.url = 'url' + user.username
+#             user_role = extend_form.cleaned_data['role']
+#             group = Group.objects.get(name=user_role)
+#             user.groups.add(group)
+#             if str(user_role) == 'admin':
+#                 user.is_staff = True
+#             profile.save()
+#             user.save()
+#             return redirect('index')
+#     else:
+#         form = UserFormCreation(request.POST)
+#         extend_form = ProfileForm(request.POST)
+#
+#     context = {"form": form,
+#                "extendform": extend_form}
+#     return render(request, 'accounts/register.html', context)
+
+# def registerTeacherPage(request):
 
 
 @login_required(login_url='login')
