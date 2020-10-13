@@ -46,15 +46,15 @@ class TeachersList(View):
                 teacher_list.append(t)
         return render(request, 'teachers/teachers_list.html', {"teachers": teacher_list})
 
-
 class TeacherDetailView(View):
     def get(self, request, slug):
         user = get_object_or_404(Profile, url=slug)
-        return render(request, 'Teacher/teacher_detail.html', {"user": user})
+        return render(request, 'teachers/teacher_detail.html', {"user": user})
 
 
 # start register page
 @login_required(login_url='login')
+@allowed_users(allowed_roles=['admin'])
 def registerPage(request):
     if request.method == 'POST':
         form = UserFormCreation(request.POST)

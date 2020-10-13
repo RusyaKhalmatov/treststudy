@@ -12,7 +12,6 @@ urlpatterns = [
     path('teacher/<str:slug>/', login_required(TeacherDetailView.as_view(), login_url='login'), name='teacher_detail'),
     path('register', views.registerPage, name="register"),
     path('register-student', views.registerStudentPage, name="register-student"),
-    # path('register-teacher', views.registerTeacherPage, name="register-teacher"),
     path('login', views.loginPage, name="login"),
     path('logout/', views.logoutView, name='logout'),
     path('add-book', views.addBook, name='addBook'),
