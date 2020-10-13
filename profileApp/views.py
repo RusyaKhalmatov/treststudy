@@ -7,8 +7,9 @@ from django.views.generic import CreateView
 from django.views.generic.base import View
 
 from .decorators import authenticate_required, allowed_users
-from .forms import UserFormCreation, AddBookForm, ProfileForm, AddCourseForm
-from profileApp.models import Student, Teachers, Profile, Courses
+from .forms import UserFormCreation, AddBookForm, ProfileForm, AddCourseForm, AddSubjectForm, AddTeacherForm, \
+    AddStudentForm
+from profileApp.models import Student, Teacher, Profile, Course, Roles, Dean
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 
@@ -38,22 +39,21 @@ class StudentDetailView(View):
 
 class TeachersList(View):
     def get(self, request):
-        teachers_list = []
+        teacher_list = []
         teachers = Profile.objects.all()
         for t in teachers:
             if str(t.role) == 'teacher':
-                teachers_list.append(t)
-        return render(request, 'teachers/teachers_list.html', {"teachers": teachers_list})
+                teacher_list.append(t)
+        return render(request, 'teachers/teachers_list.html', {"teachers": teacher_list})
 
 
 class TeacherDetailView(View):
     def get(self, request, slug):
         user = get_object_or_404(Profile, url=slug)
-        return render(request, 'teachers/teacher_detail.html', {"user": user})
+        return render(request, 'Teacher/teacher_detail.html', {"user": user})
 
 
 # start register page
-
 @login_required(login_url='login')
 def registerPage(request):
     if request.method == 'POST':
@@ -66,11 +66,17 @@ def registerPage(request):
             profile.url = 'url' + user.username
             user_role = extend_form.cleaned_data['role']
             group = Group.objects.get(name=user_role)
+            profile.role=user_role
+            profile.save()
             user.groups.add(group)
             if str(user_role) == 'admin':
                 user.is_staff = True
-            profile.save()
+            elif str(user_role) == 'dean':
+                user.is_staff = True
+                dean = Dean.objects.create(user=profile)
+
             user.save()
+
             return redirect('index')
     else:
         form = UserFormCreation(request.POST)
@@ -79,33 +85,6 @@ def registerPage(request):
     context = {"form": form,
                "extendform": extend_form}
     return render(request, 'accounts/register.html', context)
-
-# def registerPage(request):
-#     if request.method == 'POST':
-#         form = UserFormCreation(request.POST)
-#         extend_form = ProfileForm(request.POST)
-#         if form.is_valid() and extend_form.is_valid():
-#             user = form.save()
-#             profile = extend_form.save(commit=False)
-#             profile.user = user
-#             profile.url = 'url' + user.username
-#             user_role = extend_form.cleaned_data['role']
-#             group = Group.objects.get(name=user_role)
-#             user.groups.add(group)
-#             if str(user_role) == 'admin':
-#                 user.is_staff = True
-#             profile.save()
-#             user.save()
-#             return redirect('index')
-#     else:
-#         form = UserFormCreation(request.POST)
-#         extend_form = ProfileForm(request.POST)
-#
-#     context = {"form": form,
-#                "extendform": extend_form}
-#     return render(request, 'accounts/register.html', context)
-
-# def registerTeacherPage(request):
 
 
 @login_required(login_url='login')
@@ -130,7 +109,6 @@ def addCourse(request):
         form = AddCourseForm(request.POST)
         if form.is_valid():
             course = form.save(commit=False)
-            course.save()
             course.url = 'course-' + str(course.course_id)
             course.save()
             alert = True
@@ -141,14 +119,14 @@ def addCourse(request):
 
 class courseDetail(View):
     def get(self, request, slug):
-        course = get_object_or_404(Courses, url=slug)
-        return render(request, 'courses/course_detail.html', {"course": course})
+        course = get_object_or_404(Course, url=slug)
+        return render(request, 'Course/course_detail.html', {"course": course})
 
 
 @login_required(login_url='login')
 def courseList(request):
-    courses = Courses.objects.all()
-    return render(request, 'courses/course_list.html', {"courses": courses})
+    course = Course.objects.all()
+    return render(request, 'courses/course_list.html', {"course": course})
 
 
 @authenticate_required
@@ -176,3 +154,51 @@ def logoutView(request):
 def userPage(request):
     context = {}
     return render(request, 'accounts/user', context)
+
+
+@login_required(login_url='login')
+def registerStudentPage(request):
+    if request.method == 'POST':
+        form = UserFormCreation(request.POST)
+        extend_form = ProfileForm(request.POST)
+        s_form = AddStudentForm(request.POST)
+        if form.is_valid() and extend_form.is_valid() and s_form.is_valid():
+            role_student = Roles.objects.get(role_name='student')
+            print("ROLE-ROLE-ROLE -- " + str(role_student.role_name))
+            user = form.save()
+            profile = extend_form.save(commit=False)
+            student = s_form.save(commit=False)
+            profile.user = user
+            profile.url = 'url' + user.username
+            profile.role = role_student
+            group = Group.objects.get(name=role_student.role_name)
+            student.save()
+            profile.save()
+            student.user = profile
+            user.groups.add(group)
+            user.save()
+            return redirect('index')
+    else:
+        form = UserFormCreation(request.POST)
+        extend_form = ProfileForm(request.POST)
+        s_form = AddStudentForm(request.POST)
+    context = {"form": form,
+               "extendform": extend_form,
+               "s_form": s_form
+               }
+    return render(request, 'accounts/register-student.html', context)
+
+@login_required(login_url='login')
+def addSubject(request):
+    if request.method == "POST":
+        form = AddSubjectForm(request.POST)
+        if form.is_valid():
+            subject = form.save(commit=False)
+            subject.url = str(subject.sub_name) + str(subject.room_number) + 'url'
+            subject.save()
+            messages.success(request, "Предмет " + subject.sub_name + " успешно добавлена")
+    else:
+        form = AddSubjectForm()
+    return render(request, 'add_subject.html', {'form': form})
+
+

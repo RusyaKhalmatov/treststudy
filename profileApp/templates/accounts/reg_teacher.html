@@ -3,10 +3,14 @@
 
 {% block content %}
 <div class="container-fluid" style="margin: 3%; padding-bottom: 5%;">
-      <form method="post" action="{%url 'register' %}">
+      <form method="post">
           {% csrf_token %}
         <div class="form-row">
+            <div class="input-group md-4">
+                <div class="input-group-append">
 
+                </div>
+            </div>
           <div class="form-group col-md-4">
             <label for="inputUsername">Имя пользователя</label>
             <!--input type="text" class="form-control" id="inputUsername" placeholder="Введите имя пользователя"-->
@@ -100,27 +104,26 @@
           </div>
         </div>
         <div class="form-row">
-            <div class="form-group col-md-6" style="">
-              <label for="inputRole">Роль</label>
-                {{extendform.role|attr:"class: custom-select form-control"|attr:"id:inputRole"}}
-            </div>
-        </div>
-        <div class="form-row">
             <div class="form-group col-md-4">
-              <label class="custom-file-label" for="customFile">Загрузить файл</label>
+              <label class="custom-file-label" for="customFile">Choose file</label>
               <input type="file" class="custom-file-input form-control" id="customFile">
 
             </div>
         </div>
 
+        <div class="form-row">
+            <div class="form-group col-md-6" style="padding: 0;">
+              <label for="inputsubject">Предмет</label>
+                {{teacher_form.subject|attr:"class: custom-select form-control"|attr:"id:inputsubject"}}
+
+            </div>
+        </div>
         <div class="row row justify-content-center">
-          <button type="submit" class="btn btn-primary btn-lg btn-block">Добавить пользователя</button>
+          <button type="subxmit" class="btn btn-primary btn-lg btn-block">Добавить учителя</button>
         </div>
 
         </form>
     </div>
-
-
 
 {% endblock %}
 

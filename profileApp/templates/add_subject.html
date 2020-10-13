@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+
+{% block content %}
+
+
+<div class="container justify-content-md-center" style="margin-top: 5%;">
+    <h1>Добавить предмет</h1>
+    <form method="POST" class="post-form">
+        {% csrf_token %}
+
+        <div class="form-row">
+            <div class="form-group col-md-3">
+              <label for="inputSubName">Название</label>
+               {{form.sub_name|attr:"class:form-control"|attr:"id:inputSubName"|attr:"placeholder: Математика"}}
+          </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group col-md-3">
+              <label for="inputSubjectTeacher">Преподаватель</label>
+               {{form.teacher|attr:"class:form-control"|attr:"id:inputSubjectTeacher"}}
+          </div>
+        </div>
+
+
+        <div class="form-row">
+            <div class="form-group col-md-3">
+              <label for="inputRoomNumber">Номер комнаты</label>
+               {{form.room_number|attr:"class:form-control"|attr:"id:inputRoomNumber"}}
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-lg ">Save</button>
+    </form>
+
+    <div class="container">
+        <div class="row justify-content-center">
+            {% for message in messages %}
+                <p id="messages">{{message}}</p>
+            {% endfor %}
+        </div>
+    </div>
+
+</div>
+{% endblock %}
+

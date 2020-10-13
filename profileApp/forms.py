@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django.forms import ModelForm
 
-from profileApp.models import Books, Profile, Courses
+from profileApp.models import Books, Profile, Course, Student, Teacher, Subject
 
 
 class UserFormCreation(UserCreationForm):
@@ -23,7 +23,14 @@ class UserFormCreation(UserCreationForm):
 class ProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
-        fields = ('thirdname', 'phone_number', 'passport_number','passport_series', 'date_of_birth','home_address','role')
+        fields = (
+        'thirdname', 'phone_number', 'passport_number', 'passport_series', 'date_of_birth', 'home_address', 'role')
+
+    def save(self, commit=True):
+        profile = super().save(commit=False)
+        if commit:
+            profile.save()
+        return profile
 
 
 class AddBookForm(forms.ModelForm):
@@ -34,15 +41,24 @@ class AddBookForm(forms.ModelForm):
 
 class AddCourseForm(forms.ModelForm):
     class Meta:
-        model = Courses
-        fields = ('dean', 'course_name')
+        model = Course
+        fields = ('course_level', 'course_name','f_id')
 
 
-class UserProfileForm(ModelForm):
+class AddStudentForm(forms.ModelForm):
     class Meta:
-        model = Profile
-        fields = ('thirdname', 'phone_number', 'passport_number')
+        model = Student
+        fields = ('group',)
 
 
+class AddSubjectForm(forms.ModelForm):
+    class Meta:
+        model = Subject
+        fields = ('teacher', 'sub_name', 'room_number')
 
+
+class AddTeacherForm(forms.ModelForm):
+    class Meta:
+        model = Teacher
+        fields = ('u_id',)
 

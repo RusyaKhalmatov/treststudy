@@ -18,9 +18,13 @@ from django.contrib.auth.models import User
 # admin.site.unregister(User)
 admin.site.register(Profile)
 admin.site.register(Books)
-admin.site.register(Courses)
-admin.site.register(Groups)
+admin.site.register(Course)
+admin.site.register(Class)
 admin.site.register(Roles)
-admin.site.register(Subjects)
+admin.site.register(Subject)
 admin.site.register(Student)
-admin.site.register(Teachers)
+admin.site.register(Teacher)
+admin.site.register(Dean)
+admin.site.register(Faculty)
+
+

@@ -78,7 +78,7 @@ LOGIN_URL = "login"
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'treststudydb',
+        'NAME': 'treststudydb3',
         'USER': 'postgres',
         'PASSWORD': '12357tr',
         'HOST': '127.0.0.1',

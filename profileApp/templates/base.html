@@ -24,12 +24,22 @@
 
         <!--If user is admin-->
         {% if request.user.is_staff %}
-      <li class="nav-item active">
-        <a class="nav-link" href="{% url 'register' %}">Добавить пользователя <span class="sr-only">(current)</span></a>
-      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Добавить пользователя
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="{% url 'register' %}">Зарегестрировать сотрудника</a>
+          <a class="dropdown-item" href="{% url 'register-student' %}">Зарегестрировать ученика</a>
 
+
+        </div>
+      </li>
       <li class="nav-item">
         <a class="nav-link" href="{% url 'addBook' %}">Добавить книгу</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'add-subject' %}">Добавить предмет</a>
       </li>
 
         <li class="nav-item">
@@ -115,11 +125,11 @@
 
 
     </ul>
-    <form class="form-inline my-2 my-lg-0" style="margin-right: 10% !important;">
+    <form class="form-inline my-2 my-lg-0">
       <input class="form-control mr-sm-5" type="search" placeholder="Search" aria-label="Search" style="margin-right: 10px!important;">
       <button class="btn btn-outline-success my-2 my-sm-0" type="submit" style="margin-left: 0%;">Search</button>
     </form>
-      <ul class="navbar-nav" style="margin-right: 2%;">
+      <ul class="navbar-nav" style="">
       {% if user.is_authenticated %}
         <li class="nav-item"><a class="nav-link" href="#">Здравствуйте, {{ user.first_name }}</a></li>
          <li class="nav-item"><a class="nav-link" href="{% url 'logout'%}">Выйти</a></li>
@@ -147,3 +157,5 @@
 
 </body>
 </html>
+
+
