@@ -120,13 +120,14 @@ def addCourse(request):
 class courseDetail(View):
     def get(self, request, slug):
         course = get_object_or_404(Course, url=slug)
-        return render(request, 'Course/course_detail.html', {"course": course})
+        return render(request, 'courses/course_detail.html', {"course": course})
 
 
 @login_required(login_url='login')
 def courseList(request):
     course = Course.objects.all()
-    return render(request, 'courses/course_list.html', {"course": course})
+    print(course)
+    return render(request, 'courses/course_list.html', {"courses": course})
 
 
 @authenticate_required

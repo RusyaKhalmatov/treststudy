@@ -7,6 +7,12 @@
         <div class="container table-wrapper-scroll-y my-custom-scrollbar" style="margin-top: 3%">
             <form method="post">
           {% csrf_token %}
+                <div class="form-row">
+                 <div class="form-group col-md-4">
+                    <label for="inputCourseName">Факультет курса</label>
+                    <input type="text" class="form-control" id="inputCourseName" value="{{course.f_id}}">
+                 </div>
+                </div>
                <div class="form-row">
                  <div class="form-group col-md-4">
                     <label for="inputCourseName">Курс</label>
@@ -15,8 +21,8 @@
                 </div>
                 <div class="form-row">
                   <div class="form-group col-md-4">
-                    <label for="inputDean">Декан курса</label>
-                    <input type="text" class="form-control" id="inputDean" value="{{course.dean}}">
+                    <label for="inputDean">Уровень</label>
+                    <input type="number" class="form-control" id="inputDean" value="{{course.course_level}}">
                   </div>
                 </div>
                 <div class="row row justify-content-center col-md-3">
