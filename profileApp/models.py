@@ -95,12 +95,29 @@ class Faculty(models.Model):
         db_table = 'faculties'
 
 
+class Subject(models.Model):
+    sub_id = models.AutoField(primary_key=True)
+    sub_name = models.CharField('Subject name', max_length=20, blank=False, null=False)
+    room_number = models.PositiveSmallIntegerField('Room number')
+    teacher = models.ManyToManyField(Teacher)
+    url = models.SlugField(max_length=50,blank=True, null=True, default="none")
+
+    def __str__(self):
+        return self.sub_name
+
+    class Meta:
+        db_table = 'subjects'
+        verbose_name = "Subject"
+        verbose_name_plural = "Subjects"
+
+
 class Course(models.Model):
     course_id = models.AutoField(primary_key=True)
     course_level = models.PositiveSmallIntegerField('Course level', blank=False, null=False)
     course_name = models.CharField('Course name', max_length=150, blank=False, null=False)
     url = models.SlugField(max_length=50, blank=True, null=True,default="none")
     f_id = models.ForeignKey(Faculty, on_delete=models.DO_NOTHING)
+    subject = models.ManyToManyField(Subject)
 
     def __str__(self):
         return self.course_name
@@ -142,22 +159,6 @@ class Student(models.Model):
         db_table = "students"
         verbose_name = "Student"
         verbose_name_plural = "Students"
-
-
-class Subject(models.Model):
-    sub_id = models.AutoField(primary_key=True)
-    sub_name = models.CharField('Subject name', max_length=20, blank=False, null=False)
-    room_number = models.PositiveSmallIntegerField('Room number')
-    teacher = models.ManyToManyField(Teacher)
-    url = models.SlugField(max_length=50,blank=True, null=True, default="none")
-
-    def __str__(self):
-        return self.sub_name
-
-    class Meta:
-        db_table = 'subjects'
-        verbose_name = "Subject"
-        verbose_name_plural = "Subjects"
 
 
 class Books(models.Model):

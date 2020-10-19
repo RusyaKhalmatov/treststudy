@@ -46,6 +46,7 @@ class TeachersList(View):
                 teacher_list.append(t)
         return render(request, 'teachers/teachers_list.html', {"teachers": teacher_list})
 
+
 class TeacherDetailView(View):
     def get(self, request, slug):
         user = get_object_or_404(Profile, url=slug)
@@ -139,7 +140,12 @@ def loginPage(request):
 
         if user is not None:
             login(request, user)
-            return redirect('index')
+            profile = Profile.objects.get(user= user.id)
+            if str(profile.role.role_name) == 'student':
+                return redirect('student/')
+            else:
+                return redirect('index')
+
         else:
             messages.info(request, "Неправильный логин или пароль")
 

@@ -1,0 +1,243 @@
+<style>
+    #mainRow{
+        height: 100%;
+    }
+    #sidebar {
+    width: 250px;
+        top: 0;
+    left: -250px;
+    height: 100%;
+    z-index: 999;
+    background: #007bff;
+    color: white;
+    transition: all 0.3s;
+    #overflow-y: scroll;
+    box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.2);
+}
+#sidebar.active {
+    left: 0;
+}
+
+
+#sidebar .sidebar-header {
+    padding: 20px;
+    background: #6d7fcc;
+}
+
+#sidebar ul.components {
+    padding: 20px 0;
+    border-bottom: 1px solid #47748b;
+}
+
+#sidebar ul p {
+    color: #fff;
+    padding: 10px;
+}
+
+#sidebar ul li a {
+    padding: 10px;
+    font-size: 1.1em;
+    display: block;
+    color:white;
+}
+
+#sidebar ul li a:hover {
+    color: #7386D5;
+    background: #fff;
+}
+
+#sidebar ul li.active>a,
+a[aria-expanded="true"] {
+    color: #fff;
+    background: #6d7fcc;
+}
+
+a[data-toggle="collapse"] {
+    position: relative;
+}
+
+.dropdown-toggle::after {
+    display: block;
+    position: absolute;
+    top: 50%;
+    right: 20px;
+    transform: translateY(-50%);
+}
+
+ul ul a {
+    font-size: 0.9em !important;
+    padding-left: 30px !important;
+    background: #6d7fcc;
+}
+
+ul.CTAs {
+    padding: 20px;
+}
+
+ul.CTAs a {
+    text-align: center;
+    font-size: 0.9em !important;
+    display: block;
+    border-radius: 5px;
+    margin-bottom: 5px;
+}
+
+a.download {
+    background: #fff;
+    color: #7386D5;
+}
+
+a.article,
+a.article:hover {
+    background: #6d7fcc !important;
+    color: #fff !important;
+}
+
+#content {
+    width: 100%;
+    padding: 20px;
+    min-height: 100vh;
+    transition: all 0.3s;
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+</style>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- CSS only -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+ <!-- Scrollbar Custom CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
+<!-- Font Awesome JS -->
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
+<!-- JS, Popper.js, and jQuery -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+    <title>{% block title %}TrestStudy school{% endblock %}</title>
+</head>
+
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+  <a class="navbar-brand" href="{% url 'student-index' %}" style="margin-left: 5%;">Главная</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent" style="margin-left: 10%;">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="#">Мой дневник <span class="sr-only">(current)</span></a>
+      </li>
+
+        <li class="nav-item">
+        <a class="nav-link" href="#">Библиотека</a>
+      </li>
+        <li class="nav-item">
+        <a class="nav-link" href="#">Успеваемость</a>
+      </li>
+        <li class="nav-item">
+        <a class="nav-link" href="#">Практикум</a>
+      </li>
+         <li class="nav-item">
+        <a class="nav-link" href="#">Видео уроки</a>
+      </li>
+        <li class="nav-item">
+        <a class="nav-link" href="#">Помощь</a>
+      </li>
+    </ul>
+      <ul class="navbar-nav" style="">
+      {% if user.is_authenticated %}
+        <li class="nav-item"><a class="nav-link" href="#">Здравствуйте, {{ user.first_name }}</a></li>
+         <li class="nav-item"><a class="nav-link" href="{% url 'logout'%}">Выйти</a></li>
+       {% else %}
+         <li class="nav-item"><a class="nav-link" href="{% url 'login'%}?next={{request.path}}" style="margin-left: 2%">Войти</a></li>
+       {% endif %}
+          </ul>
+  </div>
+</nav>
+
+    <!--Block sidebar-->
+
+<div class="container-fluid" style="padding-left: 0px !important;">
+    <div class="row" id="mainRow">
+   <div class="col-md-3">
+        <div class="wrapper">
+        <!-- Sidebar  -->
+            <nav id="sidebar" class="active">
+
+            <div class="sidebar-header">
+                <h3>Имя, Фамилия и группа ученика</h3>
+            </div>
+
+            <ul class="list-unstyled components">
+                <li class="active">
+                    <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false">Мои предметы</a>
+                    <ul class="collapse list-unstyled" id="homeSubmenu">
+                        {% for subject in subject_list %}
+                        <li>
+                            <a href="subject/{{subject.url}}/">{{subject.sub_name}}</a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </li>
+                <li>
+                    <a href="#">Расписание</a>
+                    <!--a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false">Pages</a>
+                    <ul class="collapse list-unstyled" id="pageSubmenu">
+                        <li>
+                            <a href="#">Page 1</a>
+                        </li>
+                        <li>
+                            <a href="#">Page 2</a>
+                        </li>
+                        <li>
+                            <a href="#">Page 3</a>
+                        </li>
+                    </ul-->
+                </li>
+                <!--li>
+                    <a href="#">Portfolio</a>
+                </li>
+                <li>
+                    <a href="#">Contact</a>
+                </li-->
+            </ul>
+
+            <ul class="list-unstyled CTAs">
+                <li>
+                    <a href="https://blog-kopilka.ru/blog/bootstrap-41-sidebar-bokovaya-panel" class="article">Выход</a>
+                </li>
+            </ul>
+        </nav>
+        </div>
+</div>
+        <div class="col-md-9">
+        {% block content %}
+        {% endblock %}
+    </div>
+    </div>
+</div>
+    <!--End sidebar-->
+
+
+
+
+<div class="navbar bg-primary fixed-bottom">
+    <small class="ml-4 ml-sm-5 mb-2" style="padding: 0.5%; color:white;">
+      &copy; 2020 OOO &laquo;COSCOM&raquo;. Все права защищены. Услуги
+      лицензированы.
+    </small>
+</div>
+
+
+</body>
+</html>
+
+

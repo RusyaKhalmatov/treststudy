@@ -36,7 +36,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'profileApp',
-    'widget_tweaks'
+    'widget_tweaks',
+    'studentApp',
 ]
 
 MIDDLEWARE = [
@@ -62,7 +63,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'profileApp.templates.context_processors.template_processors.get_users_role_proc'
+                'profileApp.templates.context_processors.template_processors.get_users_role_proc',
+
             ],
         },
     },
