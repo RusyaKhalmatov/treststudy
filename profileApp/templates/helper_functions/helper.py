@@ -20,3 +20,18 @@ def get_course_subject_by_student(user):
     return student_subjects
 
 
+def get_student_class(user):
+    profile_user = Profile.objects.get(user=user)
+    student = Student.objects.get(user=profile_user)
+    return student.group.g_name
+
+
+def get_user_name(user):
+    profile_user = Profile.objects.get(user=user)
+    context = {
+        'name': user.first_name,
+        'last_name': user.last_name,
+        'third_name': profile_user.thirdname,
+    }
+    return context
+

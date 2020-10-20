@@ -105,6 +105,9 @@ class Subject(models.Model):
     def __str__(self):
         return self.sub_name
 
+    def get_absolute_url(self):
+        return reverse('student-subject-detail', kwargs={"slug": self.url})
+
     class Meta:
         db_table = 'subjects'
         verbose_name = "Subject"

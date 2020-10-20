@@ -173,7 +173,7 @@ a.article:hover {
             <nav id="sidebar" class="active">
 
             <div class="sidebar-header">
-                <h3>Имя, Фамилия и группа ученика</h3>
+                <h3>{{student_class}}, {{user.first_name}}, {{user.last_name}}</h3>
             </div>
 
             <ul class="list-unstyled components">
@@ -182,7 +182,7 @@ a.article:hover {
                     <ul class="collapse list-unstyled" id="homeSubmenu">
                         {% for subject in subject_list %}
                         <li>
-                            <a href="subject/{{subject.url}}/">{{subject.sub_name}}</a>
+                            <a href="{{subject.get_absolute_url }}">{{subject.sub_name}}</a>
                         </li>
                         {% endfor %}
                     </ul>
