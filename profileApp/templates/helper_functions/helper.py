@@ -1,4 +1,4 @@
-from profileApp.models import Profile, Student, Class, Course
+from profileApp.models import Profile, Student, Class, Course, Teacher, Subject
 
 
 def get_students():
@@ -35,3 +35,9 @@ def get_user_name(user):
     }
     return context
 
+
+def get_teachers_subjects(user):
+    profile_user = Profile.objects.get(user=user)
+    teacher = Teacher.objects.get(u_id=profile_user)
+    subjects = Subject.objects.filter(teacher=teacher)
+    return subjects

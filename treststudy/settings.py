@@ -38,6 +38,8 @@ INSTALLED_APPS = [
     'profileApp',
     'widget_tweaks',
     'studentApp',
+    'rest_framework',
+    'teacherApp',
 ]
 
 MIDDLEWARE = [

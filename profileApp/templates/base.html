@@ -23,7 +23,7 @@
     <ul class="navbar-nav mr-auto">
 
         <!--If user is admin-->
-        {% if request.user.is_staff %}
+        {% if user_role == 'admin' %}
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           Добавить пользователя

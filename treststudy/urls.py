@@ -8,7 +8,9 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('profileApp.urls')),
     # path('accounts/', include('django.contrib.auth.urls'))
-    path('student/', include('studentApp.urls'))
+    path('student/', include('studentApp.urls')),
+    path('teacher/', include('teacherApp.urls')),
+
 ]
 
 if settings.DEBUG:

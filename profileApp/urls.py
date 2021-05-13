@@ -7,9 +7,9 @@ from .views import TeachersList, StudentDetailView, TeacherDetailView, courseDet
 urlpatterns = [
     path('', views.index, name='index'),
     path('studentslist', views.student_list, name='profile_students_list'),
-    path('student/<str:slug>/', login_required(StudentDetailView.as_view(), login_url='login'), name='student_detail'),
+    #path('student/<str:slug>/', login_required(StudentDetailView.as_view(), login_url='login'), name='student_detail'),
     path('teachers_list', login_required(TeachersList.as_view(), login_url='login'), name="teachers_list"),
-    path('teacher/<str:slug>/', login_required(TeacherDetailView.as_view(), login_url='login'), name='teacher_detail'),
+    # path('teacher/<str:slug>/', login_required(TeacherDetailView.as_view(), login_url='login'), name='teacher_detail'),
     path('register', views.registerPage, name="register"),
     path('register-student', views.registerStudentPage, name="register-student"),
     path('login', views.loginPage, name="login"),

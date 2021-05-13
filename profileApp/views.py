@@ -15,12 +15,12 @@ from django.contrib.auth import authenticate, login, logout
 
 
 # @allowed_users(allowed_roles=['admin'])
-@login_required(login_url='login')
+# @login_required(login_url='login')
 def index(request):
     return render(request, './index.html')
 
 
-@login_required(login_url='login')
+# @login_required(login_url='login')
 def student_list(request):
     student_list = []
     users = Profile.objects.all()
@@ -54,8 +54,8 @@ class TeacherDetailView(View):
 
 
 # start register page
-@login_required(login_url='login')
-@allowed_users(allowed_roles=['admin'])
+# @login_required(login_url='login')
+# @allowed_users(allowed_roles=['admin'])
 def registerPage(request):
     if request.method == 'POST':
         form = UserFormCreation(request.POST)
@@ -88,7 +88,7 @@ def registerPage(request):
     return render(request, 'accounts/register.html', context)
 
 
-@login_required(login_url='login')
+# @login_required(login_url='login')
 def addBook(request):
     if request.method == "POST":
         form = AddBookForm(request.POST)
@@ -103,7 +103,7 @@ def addBook(request):
     return render(request, 'add_book.html', {'form': form})
 
 
-@login_required(login_url='login')
+# @login_required(login_url='login')
 def addCourse(request):
     alert = False
     if request.method == "POST":
@@ -124,14 +124,14 @@ class courseDetail(View):
         return render(request, 'courses/course_detail.html', {"course": course})
 
 
-@login_required(login_url='login')
+# @login_required(login_url='login')
 def courseList(request):
     course = Course.objects.all()
     print(course)
     return render(request, 'courses/course_list.html', {"courses": course})
 
 
-@authenticate_required
+# @authenticate_required
 def loginPage(request):
     if request.method == 'POST':
         username = request.POST.get('username')
@@ -163,7 +163,7 @@ def userPage(request):
     return render(request, 'accounts/user', context)
 
 
-@login_required(login_url='login')
+# @login_required(login_url='login')
 def registerStudentPage(request):
     if request.method == 'POST':
         form = UserFormCreation(request.POST)
@@ -195,7 +195,7 @@ def registerStudentPage(request):
                }
     return render(request, 'accounts/register-student.html', context)
 
-@login_required(login_url='login')
+# @login_required(login_url='login')
 def addSubject(request):
     if request.method == "POST":
         form = AddSubjectForm(request.POST)
